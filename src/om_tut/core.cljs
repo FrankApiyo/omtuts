@@ -1,7 +1,8 @@
 (ns ^:figwheel-always om-tut.core
-  (:require-macros [clsj.core.async.macros :refer [go]])
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]))
+            [om.dom :as dom :include-macros true]
+             [cljs.core.async :refer [put! chan <!]]))
 
 (enable-console-print!)
 
@@ -29,7 +30,7 @@
 (defn contact-view [contact owner]
   (reify
     om/IRenderState
-    (render [this {:keys [delete]}]
+    (render-state [this {:keys [delete]}]
       (dom/li nil
               (dom/span nil (display-name contact))
               (dom/button #js {:onClick (fn [e] (put! delete @contact))} "Delete")))))
